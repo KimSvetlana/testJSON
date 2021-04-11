@@ -1,0 +1,35 @@
+form{
+    padding: 40px;
+    margin-bottom: 20px;
+    min-width: 320px;
+    margin: 0 auto;
+    border: 1px solid rgb(226, 216, 216);
+    border-radius: 15px;
+    box-shadow: 0px 4px 16px rgba(0, 66, 148, 0.08);
+}
+
+.wrapper{
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.wrapper > input {
+    width: 100%;
+    margin-left: 15px;
+}
+
+@media screen and (max-width: 755px) {
+    .wrapper{
+        display: initial;
+    }
+    .wrapper > input {
+        margin-left: 0px;
+    }
+    .wrapper > label {
+        margin-top: 20px;
+    }
+    
+}
+form button {
+    margin: 15px;
+}
