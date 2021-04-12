@@ -1,3 +1,6 @@
+.container{
+    margin-top: 30px;
+}
 form{
     padding: 40px;
     margin-bottom: 20px;
@@ -12,10 +15,13 @@ form{
     display: flex;
     margin-bottom: 15px;
 }
+.wrapper > label{
+    margin: auto;
+    margin-right: 15px;
+}
 
 .wrapper > input {
     width: 100%;
-    margin-left: 15px;
 }
 
 @media screen and (max-width: 755px) {
@@ -24,6 +30,7 @@ form{
     }
     .wrapper > input {
         margin-left: 0px;
+        margin-top: 10px;
     }
     .wrapper > label {
         margin-top: 20px;

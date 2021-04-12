@@ -261,7 +261,7 @@ let jsonSignup = `{
 ]
 }`;
 
-let jsonColorShme = `{
+let jsonColorSheme = `{
     "name":"website_color_scheme",
     "fields":[
         {
@@ -281,39 +281,62 @@ let jsonColorShme = `{
     ]
 }`
 
-let addFormField = function (el) {
-    let required = el.input.required ? 'required' : '';
-    let placeholder = el.input.placeholder ? `placeholder="${el.input.placeholder}"` : '';
-    $('form').append(`<div class='wrapper'>
-                      <label>${el.label}</label>
-                      <input class ='form-control' type="${el.input.type}"  ${required} ${placeholder}>
-                    </div>`)
+let addFormFields = function (elements) {
+    elements.forEach(el => {
+        let label = el.label ? `<label>${el.label}</label>` : '';
+        let required = el.input.required ? 'required' : '';
+        let checked = el.input.checked ? 'checked' : '';
+        let placeholder = el.input.placeholder ? `placeholder="${el.input.placeholder}"` : '';
+        $('form').append(`<div class='wrapper'>
+                            ${label}
+                            <input class ='form-control' type="${el.input.type}"  ${required} ${placeholder} ${checked}>
+                         </div>`)
+    })
+}
+
+let addFormButtons = function(elements){
+    elements.forEach(el => {
+        $('form').append(`<button class='btn btn-outline-primary'>${el.text}</button>`)
+        
+    })
+}
+
+let addFormReferences = function (elements) {
+    elements.forEach(el => {
+        if (el.input) {
+            let label = el.label ? `<label>${el.label}</label>` : '';
+            let required = el.input.required ? 'required' : '';
+            let checked = el.input.required ? 'checked' : '';
+            // let textBeforLink = el["text without ref"] ? `${el["text without ref"]` :"";
+            $('form').append(`<div class='wrapper'>
+                        <input class ='' type="${el.input.type}"  ${required} ${checked}>
+                        ${label}
+                        </div>`)
+        } else {
+            $('form').append(`<div>${el["text without ref"]}
+                              <a href="${el.ref}">${el.text}</a>
+                          </div>`);
+        }
+    })
+}
+
+let addFormFunction = function(obj) {
+    addFormFields(obj.fields);
+
+    if (obj.buttons) {
+        addFormButtons(obj.buttons);
+    }
+
+    if(obj.references){
+        addFormReferences(obj.references);
+    }
 }
 
 $(document).ready(function () {
-    let myForm = JSON.parse(jsonInterview);
+    let myForm = JSON.parse(jsonSignin);
 
     let myHeading = myForm.name;
     $('.head').text(`Заполните пожалуйста форму ${myHeading}`);
 
-    myForm.fields.forEach(field => {
-        addFormField(field);
-    });
-
-    if (myForm.references) {
-        myForm.references.forEach(el => {
-            $('form').append(`<div>${el.references["text without ref"]}
-                                < a href='${el.references.ref}'>${el.references.text}</a>
-                            </div>`);
-        })
-    }
-
-    if (myForm.buttons) {
-        myForm.buttons.forEach(el => {
-            console.log(el)
-            $('form').append(`<button class='btn btn-outline-primary'>${el.text}</button>`)
-        })
-    }
-
+    addFormFunction(myForm)
 });
-console.log('Hi!')
