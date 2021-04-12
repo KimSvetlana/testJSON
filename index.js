@@ -333,10 +333,6 @@ let addFormFunction = function(obj) {
 }
 
 $(document).ready(function () {
-    let myForm = JSON.parse(jsonSignin);
-
-    let myHeading = myForm.name;
-    $('.head').text(`Заполните пожалуйста форму ${myHeading}`);
-
+    let myForm = JSON.parse(jsonAddPost);
     addFormFunction(myForm)
 });
