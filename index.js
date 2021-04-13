@@ -332,7 +332,26 @@ let addFormFunction = function(obj) {
     }
 }
 
-$(document).ready(function () {
-    let myForm = JSON.parse(jsonAddPost);
-    addFormFunction(myForm)
+
+let myForm;
+function processFiles(files) {
+    var file = files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        // Когда это событие активируется, данные готовы.        
+        myForm = e.target.result;
+    };
+    reader.readAsText(file);    
+}
+
+$(document).ready(function () {    
+    $( ".add-file" ).click(function() {
+        // console.log(`Hi + ${myForm}`);        
+        myForm = JSON.parse(myForm);
+        addFormFunction(myForm);
+    });
+
+    $( ".clear-form" ).click(function() {
+        $('form').html('');
+    });
 });

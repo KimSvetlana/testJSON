@@ -1,6 +1,13 @@
 .container{
     margin-top: 30px;
 }
+.addFile{
+    margin-left: 10px;
+}
+.clear-form{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 form{
     padding: 40px;
     margin-bottom: 20px;
