@@ -1,9 +1,6 @@
 .container{
     margin-top: 30px;
 }
-.addFile{
-    margin-left: 10px;
-}
 .clear-form{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -31,6 +28,9 @@ form{
     width: 100%;
 }
 
+form .form-check{
+    margin-left: 10px;
+}
 @media screen and (max-width: 755px) {
     .wrapper{
         display: initial;
