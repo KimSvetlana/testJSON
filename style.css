@@ -1,6 +1,9 @@
 .container{
     margin-top: 30px;
 }
+.input-group{
+    margin-bottom: 10px;
+}
 .clear-form{
     margin-top: 20px;
     margin-bottom: 20px;

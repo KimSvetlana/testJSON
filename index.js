@@ -3,38 +3,56 @@ let addFormFields = function (elements) {
 
         let label = el.label ? `<label>${el.label}</label>` : '';
         let required = el.input.required ? 'required' : '';
-        let checked = el.input.checked ? 'checked' : '';
+        let checked = el.input.checked === true ? 'checked' : '';
         let placeholder = el.input.placeholder ? `placeholder="${el.input.placeholder}"` : '';
+        let multiple = el.input.multiple ? 'multiple' : '';
+        let accept = el.input.filetype ? `accept="${el.input.filetype}"` : ''; 
+        let value = el.input.colors ? `value = ${el.input.colors}` : '';
+        
         let mask = el.input.mask ? `data-inputmask="'mask': '${el.input.mask}'"` : '';
         if (mask){
             el.input.type = 'text';
         }
-        
-        let multiple;
-        let accept;
-        if(el.input.type === "file"){
-            multiple = el.input.multiple ? 'multiple' : '';
-            accept = el.input.filetype ? `accept="${el.input.filetype}"` : ''; 
-        }
 
-        let str = `<input class ='form-control' type="${el.input.type}" ${required} ${placeholder} ${checked} ${mask} ${multiple} ${accept}>`;
+        let contentStr = `<input class ='form-control' 
+                            type="${el.input.type}" ${required} ${placeholder} 
+                            ${checked} ${mask} ${multiple} ${accept} ${value}>`;
 
         if(el.input.technologies){
             let valuesMultiple = el.input.technologies;
-            str = '';
+            contentStr = '';
             for(i = 0; i < valuesMultiple.length; i++){
-                str += `<div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="Check${i}">
-                <label class="form-check-label" for="Check${i}">
-                ${valuesMultiple[i]}
-                </label>
-                </div>`
+                contentStr += `<div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="Check${i}">
+                                <label class="form-check-label" for="Check${i}">
+                                    ${valuesMultiple[i]}
+                                </label>
+                             </div>`;
             }
         }
-        $('form').append(`<div class='wrapper'>
+
+        if(el.input.type ==='textarea'){
+            contentStr = `<textarea class ='form-control textarea' row=5 ${required} ${placeholder} ${checked} 
+                             ${mask} ${multiple} ${accept}>
+                        </textarea>`;
+                            
+        }  
+
+        let resultStr = `<div class='wrapper'>
                             ${label}
-                            ${str}
-                         </div>`)
+                            ${contentStr}
+                         </div>`;
+
+        if(el.input.type ==='checkbox'){
+            contentStr = `<input class ='' type="${el.input.type}" 
+                            ${required} ${placeholder} ${checked} 
+                                ${mask} ${multiple} ${accept}>`;
+            resultStr = `<div class='chekbox'>
+                            ${label}
+                            ${contentStr}
+                         </div>`;
+        }                         
+        $('form').append(resultStr);
     })
 }
 
@@ -48,13 +66,7 @@ let addFormButtons = function(elements){
 let addFormReferences = function (elements) {
     elements.forEach(el => {
         if (el.input) {
-            let label = el.label ? `<label>${el.label}</label>` : '';
-            let required = el.input.required ? 'required' : '';
-            let checked = el.input.required ? 'checked' : '';
-            $('form').append(`<div class='wrapper'>
-            <input class ='' type="${el.input.type}"  ${required} ${checked}>
-            ${label}
-            </div>`)
+            addFormFields(Array(el))
         } else {
             let text = el["text without ref"] ? `${el["text without ref"]}` : '';
             $('form').append(`<div>${text}
@@ -67,12 +79,11 @@ let addFormReferences = function (elements) {
 let addFormFunction = function(obj) {
     addFormFields(obj.fields);
 
-    if (obj.buttons) {
-        addFormButtons(obj.buttons);
-    }
-
     if(obj.references){
         addFormReferences(obj.references);
+    }
+    if (obj.buttons) {
+        addFormButtons(obj.buttons);
     }
 }
 
@@ -92,11 +103,11 @@ function processFiles(files) {
 
 $(document).ready(function () {    
     $( ".add-file" ).click(function() {
-        // console.log(`Hi + ${myForm}`);        
         fileContent = JSON.parse(fileContent);
         $('form').html('');
         addFormFunction(fileContent);
         $(":input").inputmask();
+        $('#fileInput').val('');
     });
     
     $( ".clear-form" ).click(function() {
